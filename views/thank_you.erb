@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+
+
+<style>
+    #brand-image{
+        height: 50px;
+        padding-right: 50px;
+    }
+    h1 {
+        font-family: "Abel", Arial, sans-serif;
+        font-weight: 400;
+        font-size: 40px;
+    }
+    /* Override B3 .panel adding a subtly transparent background */
+    .panel {
+        background-color: rgba(255, 255, 255, 0.9);
+    }
+    footer {
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        height: 30px;
+        width: 100%;
+        background-color: white;
+        z-index: 0;
+    }
+    #nicebg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        /* Preserve aspet ratio */
+        min-width: 100%;
+        min-height: 100%;
+    }
+    #navbutton {
+        padding-top: 0px;
+    }
+    #smiley {
+        margin-left: auto ;
+        margin-right: auto;
+        padding-top: 15px;
+        padding-bottom: -15px;
+        width:20%;
+        height:20%;
+    }
+    #navbutton {
+        margin-top: 10px;
+        padding-top: 3px;
+    }
+    #dot-matrix {
+        background: url(http://s14.directupload.net/images/111129/44ga9qid.png);
+        height: 100%;
+        width: 100%;
+        position: fixed;
+        top: 0;
+        z-index: 1
+    }
+    .panel {
+        z-index: 100;
+    }
+</style>
+
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Bootstrap contact form with PHP example by BootstrapBay.com.">
+  <meta name="author" content="BootstrapBay.com">
+  <title>Blue Media</title>
+  <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+  <link href="boostrap/css/custom.css" rel="stylesheet">
+
+  <!-- Static navbar -->
+
+  <div class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <a class="navbar-brandz">
+          <img id ="brand-image" alt="whale logo" src="http://i1066.photobucket.com/albums/u418/austinringer/whaletail_zpspo0m56qs.png" />
+        </a>
+      </div>
+
+      <ul class="nav navbar-nav">
+        <li class="active"><a href="#">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#contact">Contact</a></li>
+        <li class="dropdown">
+          <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Our Work <span class="caret"></span></a>
+          <ul class="dropdown-menu" role="menu">
+            <li><a href="#">Action</a></li>
+            <li><a href="#">Another action</a></li>
+            <li><a href="#">Something else here</a></li>
+            <li class="divider"></li>
+            <li class="dropdown-header">Nav header</li>
+            <li><a href="#">Separated link</a></li>
+            <li><a href="#">One more separated link</a></li>
+          </ul>
+        </li>
+      </ul>
+
+      <ul class="nav navbar-nav navbar-right">
+        <button type="button" id="navbutton" class="btn btn-primary">Already a Customer?</button>
+      </ul>
+    </div>
+  </div>
+</head>
+
+<body>
+<div id="dot-matrix"></div>
+<img src="http://i1066.photobucket.com/albums/u418/austinringer/res_original_zpsxtvy4wor.jpg" id="nicebg" alt="">
+<div id="img_container" class="indexColor">
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-6 col-md-offset-3 panel panel-default">
+        <div class="row text-center">
+          <img id="smiley" src="http://i1066.photobucket.com/albums/u418/austinringer/Notes_zps2hle7uge.png" />
+        </div>
+        <h1 class="page-header text-center">Thanks for reaching out!</h1>
+        <h3 class="text-center"\>You can expect a phone call from one of our Marketing Consultants within the next 24 hours.</h3>
+        <h3 class="text-center"\>We look forward to learning about you and your company and exploring how we can help you.
+          You can always call us at <a href="tel:415-555-1212">202-555-1212</a> if you would like to talk even sooner.</h3>
+        <br>
+      </div>
+    </div>
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="/vendor/jquery-1.9.1.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+</div>
+</body>
+</html>

@@ -1,0 +1,82 @@
+<!DOCTYPE HTML>
+<!--
+  Solarize by TEMPLATED
+  templated.co @templatedco
+  Released for free under the Creative Commons Attribution 3.0 license (templated.co/license)
+-->
+<html>
+  <head>
+    <title>WWE Portal</title>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8" />
+    <meta name="description" content="" />
+    <meta name="keywords" content="" />
+    <!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+    <script src="../../js/jquery.min.js"></script>
+    <script src="../../js/jquery.dropotron.min.js"></script>
+    <script src="../../js/skel.min.js"></script>
+    <script src="../../js/skel-layers.min.js"></script>
+    <script src="../../js/init.js"></script>
+    <!-- <meta name="viewport" content="width=device-width, initial-scale=1.0"> -->
+    <!-- Bootstrap -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+<!--     <link href="/css/bootstrap.css" rel="stylsheet">
+    <link href="/css/bootstrap-responsive.css" rel="stylesheet"> -->
+    <noscript>
+      <link href="/css/bootstrap.css" rel="stylsheet">
+      <link href="/css/bootstrap-responsive.css" rel="stylesheet">
+      <link rel="stylesheet" href="../../css/skel.css" />
+      <link rel="stylesheet" href="../../css/style.css" />
+<!--       <link rel="stylesheet" href="../../css/bootstrap.min.css" />
+ -->
+    </noscript>
+    <!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+  </head>
+  <body class="homepage">
+        
+        <div class="portalImage">
+        <div class="embedPositioning">
+          <iframe src="https://app.box.com/embed_widget/s/y56om6rlamrzro07oimqf7m0x9ty8y9q?view=list&sort=name&direction=ASC&theme=gray" width="1330" height="700" frameborder="0"allowfullscreen webkitallowfullscreen msallowfullscreen></iframe>
+         </div>
+
+      </div>
+
+     <div id="footer" class="portalNoFooterPading footBackColor">
+      <section class="container footerColor footBackColor">
+        <header class="major footBackColor">
+          <h2>Welcome</h2>
+          <span class="byline">This is your internal portal</span>
+        </header>
+        <ul class="icons">
+          <li class="active"><a href="#" class="fa fa-facebook"><span>Facebook</span></a></li>
+          <li><a href="#" class="fa fa-twitter"><span>Twitter</span></a></li>
+          <li><a href="#" class="fa fa-dribbble"><span>Pinterest</span></a></li>
+          <li><a href="#" class="fa fa-google-plus"><span>Google+</span></a></li>
+        </ul>
+        <hr/>
+      </section>  
+    </div>  
+    
+    <script>
+          $('#request').on("click",function(){
+                $('#openModal').modal('hide');
+                $('#openModal2').modal('show');
+          });
+
+          $('#exitButton').on("click", function(){
+                $('#openModal2').modal('hide');
+
+          });
+
+          function userEmail(){
+              var input = document.getElementById("userInput").value;
+              console.log(input);
+              puts(cable, input)
+          }
+    </script>
+
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="/vendor/jquery-1.9.1.min.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+  </body>
+</html>
