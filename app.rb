@@ -179,3 +179,10 @@ end
 get '/thankyou' do
   File.new('views/thank_you.erb').readlines
 end
+
+get '/form-upload' do
+  $client.upload_file('wailer.png', 0)
+  File.new('views/thank_you.erb').readlines
+
+
+end
