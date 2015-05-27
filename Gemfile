@@ -10,3 +10,4 @@ gem 'ap'
 gem 'carrierwave'
 gem 'bundler'
 gem 'dropzonejs-rails'
+
