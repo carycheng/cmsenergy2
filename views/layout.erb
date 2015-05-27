@@ -4,50 +4,51 @@
 <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 
 
+
+
+
 <!------------------------------------------------  CSS --------------------------------------------------------------->
 
 <style>
-    #brand-image{
-        height: 80px;
-        padding-right: 50px;
-        margin-top: 5px;
-        margin-bottom: 10px;
-    }
-    h1 {
-        font-family: "Abel", Arial, sans-serif;
-        font-weight: 400;
-        font-size: 40px;
-    }
-    /* Override B3 .panel adding a subtly transparent background */
-    .panel {
-        background-color: rgba(255, 255, 255, 0.9);
-    }
-    footer {
-        position: relative;
-        left: 0;
-        bottom: 0;
-        height: 600px;
-        width: 100%;
-        background-color: white;
-        z-index: 100;
-    }
+  #brand-image{
+    height: 80px;
+    padding-right: 50px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+  }
+  h1 {
+    font-family: "Abel", Arial, sans-serif;
+    font-weight: 400;
+    font-size: 40px;
+  }
+  /* Override B3 .panel adding a subtly transparent background */
+  .panel {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+  footer {
+    position: relative;
+    left: 0;
+    bottom: 0;
+    height: 600px;
+    width: 100%;
+    background-color: white;
+    z-index: 100;
+  }
+  #metabtn {
+    margin-top: 35px;
+    margin-bottom: 0px;
+  }
+  .modal-body {
+    background-color: transparent;
+  }
 
-    #metabtn {
-        margin-top: 35px;
-        margin-bottom: 0px;
-    }
-
-    .modal-body {
-        background-color: transparent;
-    }
-
-    #navadjust {
-        margin-top: 23px;
-        margin-bottom: 0px;
-    }
+  #navadjust {
+    margin-top: 23px;
+    margin-bottom: 0px;
+  }
 
 
-    body { background: #f8f8f8 !important;}
+  body { background: #f8f8f8 !important;}
 </style>
 
 
@@ -74,16 +75,16 @@
 
       <ul class="nav navbar-nav" id="navadjust">
 
-          <li class="active"><a href="#">
-            <h4><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
-              Dashboard</h4></a>
-          </li>
+        <li class="active"><a href="#">
+          <h4><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
+            Dashboard</h4></a>
+        </li>
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
-          <button type="button" class="btn btn-primary btn-lg" id="metabtn"data-toggle="modal" data-target=".bs-example-modal-lg">
-            Add Metadata
-          </button>
+        <button type="button" class="btn btn-primary btn-lg" id="metabtn"data-toggle="modal" data-target=".bs-example-modal-lg">
+          Add Metadata
+        </button>
       </ul>
     </div>
   </div>
@@ -93,16 +94,16 @@
 <br><br><br>
 
 </body>
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
 
-  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-  <script src="/vendor/jquery-1.9.1.min.js"></script>
-  <!-- Include all compiled plugins (below), or include individual files as needed -->
-  <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+<script src="/vendor/jquery-1.9.1.min.js"></script>
+<!-- Include all compiled plugins (below), or include individual files as needed -->
+<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 </div>
 
-  <!-- These are temporary charts and graphs -->
+<!-- These are temporary charts and graphs -->
 
 <div id="page-wrapper">
   <div class="container-fluid">
@@ -269,7 +270,7 @@
 </div>
 
 
-  <!-- This is the "Add Metadata" modal -->
+<!-- This is the "Add Metadata" modal -->
 
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -279,34 +280,41 @@
         <h2 class="modal-title" id="myModalLabel">Upload Files, Add Metadata</h2>
       </div>
 
-  <!-- Dropzone form -->
+      <!-- Dropzone form -->
 
       <div class="modal-body">
-        <form action='/form-upload'
+
+        <form action='/file-upload'
               class='dropzone'
-              id="mydropzone">
-          <script>
-             console.log("Form1")
-          </script>
+              role='form'
+              id='my_awesome_dropzone'
+              method="post">
+          <div class="fallback">
+            <input name="file" type="file" multiple />
+          </div>
         </form>
 
 
-   <!-- Metadata From -->
+        <!-- Metadata From -->
 
         <div class="container">
           <br>
           <br>
           <h4>Enter a Key and Value below to add new Metadata fields</h4>
-          <form class="form-inline" role="form" id="metadaform">
+          <form action='/attach-metadata'
+                class="form-inline"
+                role="form"
+                id="metaForm"
+                method="post">
             <div class="form-group">
               <label for="email">Field</label>
-              <input type="email" class="form-control" id="email" placeholder="New Metadata Field">
+              <input type="email" class="form-control" name="metaField1" placeholder="New Metadata Field">
             </div>
             <div class="form-group">
               <label for="sel1">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Select List:</label>
-              <select class="form-control" id="sel1">
+              <select class="form-control" name="metaValue1">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -317,13 +325,13 @@
             <br>
             <div class="form-group">
               <label for="email">Field</label>
-              <input type="email" class="form-control" id="email" placeholder="New Metadata Field">
+              <input type="email" class="form-control" name="metaField2" placeholder="New Metadata Field">
             </div>
             <div class="form-group">
               <label for="pwd">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Value</label>
-              <input type="password" class="form-control" id="pwd" placeholder="Enter a value">
+              <input type="text" class="form-control" name="metaValue2" placeholder="Enter a value">
             </div>
             <script>
               console.log("Form2")
@@ -334,13 +342,24 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button form="metadataform" class="btn btn-success" type="button" >Upload and Create</button>
+        <button form="mydropzone" class="btn btn-success" type="button" onClick="submitForms();">Upload and Create</button>
       </div>
     </div>
   </div>
 </div>
 
 <!------------------------------------------------  Javascript -------------------------------------------------------->
+# This JS Submits the Upload and Metadata Forms at the same time
+<script>
+  //  submitForms = function(){
+  //    document.getElementById("mydropzone").submit();
+  //    document.getElementById("mydropzone").submit();
+
+  function submitForms(){
+    document.getElementById("metaForm").submit();
+    //document.getElementById("mydropzone2").submit();
+  }
+</script>
 
 
 </body>
