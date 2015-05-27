@@ -155,7 +155,7 @@ post '/file-upload' do
   path = '/CMS-Energy'
   file = params[:file]
   name = params[:file][:filename]
-  $toUpload = params[:file][:tempfile]
+  toUpload = params[:file][:tempfile]
 
   # if true (need new client obj?) create new client
   if($oauth.new_client())
@@ -166,8 +166,8 @@ post '/file-upload' do
   folder = $client.folder_from_path(path)
 
   # upload file
-  uploadedFile = $client.upload_file($toUpload, folder)
-  $client.update_file(uploadedFile, name: name)
+  $uploadFile = $client.upload_file(toUpload, folder)
+  $client.update_file($uploadFile, name: name)
 
   erb :layout 
 end
@@ -188,18 +188,25 @@ post '/attach-metadata' do
   # Move to CMS Folder
   folder = $client.folder_from_path(path)
 
+  ap metaField1
+  ap metaField2
+  ap metaValue1
+  ap metaValue2
+  #ap $uploadFile
+
   # attach metadata
+  #meta = {"a" => "hello", "b" => "world"}
   meta = {metaField1 => metaValue1, metaField2 => metaValue2}
 
   # attach metadata
-  metadata = $client.create_metadata($uploadedFile, meta)
+  $client.create_metadata($uploadFile, meta)
+
+  erb :layout
+end
 
 
-  # folder = $client.folder_from_path(path)
-  # checkFolder = $client.folder_items(folder)
-  # puts checkFolder
-
-  # #fetch metadata
-  # fetchData = $client.metadata()  
+get '/attach-metadata' do
+  erb :layout
 
 end
+
