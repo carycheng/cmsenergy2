@@ -303,16 +303,18 @@
           <h4>Enter a Key and Value below to add new Metadata fields</h4>
           <form action='/attach-metadata'
                 class="form-inline" 
-                role="form">
+                role="form"
+                id="metaForm"
+                method="post">
             <div class="form-group">
               <label for="email">Field</label>
-              <input type="email" class="form-control" id="metaField1" placeholder="New Metadata Field">
+              <input type="email" class="form-control" name="metaField1" placeholder="New Metadata Field">
             </div>
             <div class="form-group">
               <label for="sel1">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Select List:</label>
-              <select class="form-control" id="metaValue1">
+              <select class="form-control" name="metaValue1">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -323,13 +325,13 @@
             <br>
             <div class="form-group">
               <label for="email">Field</label>
-              <input type="email" class="form-control" id="metaField2" placeholder="New Metadata Field">
+              <input type="email" class="form-control" name="metaField2" placeholder="New Metadata Field">
             </div>
             <div class="form-group">
               <label for="pwd">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Value</label>
-              <input type="password" class="form-control" id="metaValue2" placeholder="Enter a value">
+              <input type="text" class="form-control" name="metaValue2" placeholder="Enter a value">
             </div>
             <script>
               console.log("Form2")
@@ -354,8 +356,8 @@
 //    document.getElementById("mydropzone").submit();
 
     function submitForms(){
-      document.getElementById("mydropzone").submit();
-      document.getElementById("mydropzone2").submit();
+      document.getElementById("metaForm").submit();
+      //document.getElementById("mydropzone2").submit();
   }
 </script>
 
