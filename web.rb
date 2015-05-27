@@ -210,7 +210,6 @@ post '/attach-metadata' do
   erb :layout
 end
 
-
 get '/csv-download' do
 
   path = '/CMS-Energy'
@@ -246,6 +245,7 @@ get '/csv-download' do
   puts
 
   erb :layout
+
 end
 
 
