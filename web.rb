@@ -155,9 +155,10 @@ end
 get '/form-upload' do
 
   path = '/CMS-Energy'
+  fileName = params[:myfile]
 
   # if true (need new client obj?) create new client
-  if($oauth.need_new_tokens())
+  if($oauth.new_client())
     $client = Boxr::Client.new(Oauth2.tokens.access_token)
   end
 
@@ -165,7 +166,9 @@ get '/form-upload' do
   folder = $client.folder_from_path(path)
 
   $client.upload_file('test.txt', folder)
-  File.new('views/thank_you.erb').readlines
+  
+  erb :layout 
+  #File.new('views/thank_you.erb').readlines
 end
 
 

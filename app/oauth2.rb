@@ -14,10 +14,6 @@ class Oauth2
   @@tokens = nil # represents valid generated tokens
   @@prevTime = 1
 
-  def initialize 
-    puts "Oauth2 obj initialized"   
-  end  
-
   def self.prevTime
     @@prevTime
   end
@@ -67,7 +63,7 @@ class Oauth2
 
   # if the token obj has been initialized and the time since last refresh < 30 min
   # then do not refresh tokens/create new client
-  def need_new_tokens()
+  def new_client
     
     if(@@tokens && (Time.now.to_i - Integer(@@prevTime)) < MAX_REFRESH_TIME)
       puts "Client obj created"
