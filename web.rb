@@ -175,6 +175,10 @@ end
 post '/attach-metadata' do
 
   path = '/CMS-Energy'
+  metaField1 = params[:metaField1]
+  metaValue1 = params[:metaValue1]
+  metaField2 = params[:metaField2]
+  metaValue2 = params[:metaValue2]
 
   # if true (need new client obj?) create new client
   if($oauth.new_client())
@@ -185,8 +189,7 @@ post '/attach-metadata' do
   folder = $client.folder_from_path(path)
 
   # attach metadata
-  meta = {"a" => "hello", "b" => "world"}
-
+  meta = {metaField1 => metaValue1, metaField2 => metaValue2}
 
   # attach metadata
   metadata = $client.create_metadata($uploadedFile, meta)
