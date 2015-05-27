@@ -11,6 +11,7 @@ require_relative './app/oauth2'
 # oauth object used for using refresh methods
 $oauth = Oauth2.new
 $client = nil
+$uploadFile = nil
 
 set :server, 'webrick'
 
@@ -122,46 +123,88 @@ get '/submit' do
   File.new('views/thank_you.erb').readlines
 end
 
-# only need to call this once every 60 days, when refresh token expires
-get '/init_tokens' do
+  # only need to call this once every 60 days, when refresh token expires
+  get '/init_tokens' do
 
-  # Chad oauth code
-  oauth_url = Boxr::oauth_url(URI.encode_www_form_component('your-anti-forgery-token'))
+    # Chad oauth code
+    oauth_url = Boxr::oauth_url(URI.encode_www_form_component('your-anti-forgery-token'))
 
-  puts "Copy the URL below and paste into a browser. Go through the OAuth flow using the desired Box account. \
+    puts "Copy the URL below and paste into a browser. Go through the OAuth flow using the desired Box account. \
     When you are finished your browser will redirect to a 404 error page. This is expected behavior. Look at the URL in the address \
     bar and copy the 'code' parameter value. Paste it into the prompt below. You only have 30 seconds to complete this task so be quick about it! \
     You will then see your access token and refresh token."
 
-  puts
-  puts "URL:  #{oauth_url}"
-  puts
+    puts
+    puts "URL:  #{oauth_url}"
+    puts
 
-  print "Enter the code: "
-  code = STDIN.gets.chomp.split('=').last
+    print "Enter the code: "
+    code = STDIN.gets.chomp.split('=').last
 
-  $oauth.set_tokens(Boxr::get_tokens(code))
-  ap Oauth2.tokens
+    $oauth.set_tokens(Boxr::get_tokens(code))
+    ap Oauth2.tokens
 
+    $oauth.refresh_env_file(Oauth2.tokens.access_token, Oauth2.tokens.refresh_token)
 
-  $oauth.refresh_env_file(Oauth2.tokens.access_token, Oauth2.tokens.refresh_token)
+    puts "Access/refresh tokens have been initialized"
 
-  puts "Access/refresh tokens have been initialized"
+  end
 
-end
-
-get '/form-upload' do
+post '/file-upload' do
 
   path = '/CMS-Energy'
+  file = params[:file]
+  name = params[:file][:filename]
+  toUpload = params[:file][:tempfile]
 
   # if true (need new client obj?) create new client
-  if($oauth.need_new_tokens())
+  if($oauth.new_client())
     $client = Boxr::Client.new(Oauth2.tokens.access_token)
   end
 
   # Move to CMS Folder
   folder = $client.folder_from_path(path)
 
-  $client.upload_file('test.txt', folder)
-  File.new('views/thank_you.erb').readlines
+  # upload file
+  $uploadFile = $client.upload_file(toUpload, folder)
+  $client.update_file($uploadFile, name: name)
+
+  erb :layout 
 end
+
+post '/attach-metadata' do
+
+  path = '/CMS-Energy'
+  metaField1 = params[:metaField1]
+  metaValue1 = params[:metaValue1]
+  metaField2 = params[:metaField2]
+  metaValue2 = params[:metaValue2]
+
+  # if true (need new client obj?) create new client
+  if($oauth.new_client())
+    $client = Boxr::Client.new(Oauth2.tokens.access_token)
+  end
+
+  # Move to CMS Folder
+  folder = $client.folder_from_path(path)
+
+  ap metaField1
+  ap metaField2
+  ap metaValue1
+  ap metaValue2
+  #ap $uploadFile
+
+  # attach metadata
+  #meta = {"a" => "hello", "b" => "world"}
+  meta = {metaField1 => metaValue1, metaField2 => metaValue2}
+
+  # attach metadata
+  $client.create_metadata($uploadFile, meta)
+
+  erb :layout
+end
+
+get '/attach-metadata' do
+  erb :layout
+end
+

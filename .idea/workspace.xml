@@ -588,6 +588,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/public/css/dropzone.css">
       <provider selected="true" editor-type-id="text-editor">
+<<<<<<< HEAD
         <state vertical-scroll-proportion="0.0">
           <caret line="22" column="3" selection-start-line="22" selection-start-column="3" selection-end-line="22" selection-end-column="3" />
           <folding />
@@ -598,6 +599,10 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.86166006">
           <caret line="344" column="7" selection-start-line="344" selection-start-column="7" selection-end-line="344" selection-end-column="7" />
+=======
+        <state vertical-scroll-proportion="0.35820895">
+          <caret line="41" column="22" selection-start-line="41" selection-start-column="22" selection-end-line="41" selection-end-column="22" />
+>>>>>>> b6f3dfc5c493e98e8b55c6d3d6fd146ce2000e5a
           <folding />
         </state>
       </provider>
