@@ -188,23 +188,71 @@ post '/attach-metadata' do
   # Move to CMS Folder
   folder = $client.folder_from_path(path)
 
-  ap metaField1
-  ap metaField2
-  ap metaValue1
-  ap metaValue2
-  #ap $uploadFile
-
-  # attach metadata
-  #meta = {"a" => "hello", "b" => "world"}
   meta = {metaField1 => metaValue1, metaField2 => metaValue2}
 
   # attach metadata
   $client.create_metadata($uploadFile, meta)
+  metadata = $client.metadata($uploadFile, scope: :global, template: :properties)
+
+
+#  $uploadFile.each do |key, array|
+#    puts "#{key}-----"
+#    ap array
+#  end
+
+  #ap $uploadFile
+  #puts "File Name: #{$uploadFile['name']}"
+  #puts "Description: #{$uploadFile['description']}"
+  #puts "Created at: #{$uploadFile['created_at']}"
+  #puts "Updated at: #{$uploadFile['modified_at']}"
+  #puts "Size: #{$uploadFile['size']}"
 
   erb :layout
 end
 
-get '/attach-metadata' do
+
+get '/csv-download' do
+
+  path = '/CMS-Energy'
+
+  # if true (need new client obj?) create new client
+  if($oauth.new_client())
+    $client = Boxr::Client.new(Oauth2.tokens.access_token)
+  end
+
+  # Create new company folder
+  folder = $client.folder_from_path(path)
+
+  checkFolder = $client.folder_items(folder)
+
+  puts
+  checkFolder.each do |item|
+    #ap item
+    puts "File Name: #{item['name']}"
+
+    file = $client.file_from_id(item['id'], fields: [])
+    metadata = $client.metadata(file, scope: :global, template: :properties)
+
+    puts "\tDescription: #{file['description']}"
+    puts "\tCreated at: #{file['created_at']}"
+    puts "\tUpdated at: #{file['modified_at']}"
+    puts "\tSize: #{file['size']}"
+
+    metadata.each do |key, value|
+      break if key == '$type'
+      puts "\t#{key}: #{value}"
+    end
+  end
+  puts
+
   erb :layout
 end
+
+
+
+
+
+
+
+
 
