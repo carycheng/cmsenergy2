@@ -5,9 +5,10 @@
 
 <style>
     #brand-image{
-        height: 50px;
+        height: 80px;
         padding-right: 50px;
         margin-top: 5px;
+        margin-bottom: 10px;
     }
     h1 {
         font-family: "Abel", Arial, sans-serif;
@@ -29,15 +30,18 @@
     }
 
     #metabtn {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-    .panel {
-        margin-top: 70px;
-        z-index: 100;
+        margin-top: 28px;
+        margin-bottom: 0px;
     }
 
+    .modal-body {
+        background-color: transparent;
+    }
+
+
     body { background: #f8f8f8 !important;}
+
+
 
 
 
@@ -48,9 +52,7 @@
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="description" content="Bootstrap contact form with PHP example by BootstrapBay.com.">
-  <meta name="author" content="BootstrapBay.com">
-  <title>Blue Media</title>
+  <title>CMS Energy</title>
   <link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
   <link href="boostrap/css/custom.css" rel="stylesheet">
 
@@ -60,7 +62,7 @@
     <div class="container">
       <div class="navbar-header">
         <a class="navbar-brandz">
-          <img id ="brand-image" alt="whale logo" src="http://i1066.photobucket.com/albums/u418/austinringer/cmslogo_zpsebbm2foe.gif" />
+          <img id ="brand-image" alt="cms logo" src="http://i1066.photobucket.com/albums/u418/austinringer/cmslogo_zpsebbm2foe.gif" />
         </a>
       </div>
 
@@ -94,17 +96,49 @@
     <div class="modal-content">
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+        <h2 class="modal-title" id="myModalLabel">Upload a File and Attach Metadata</h2>
       </div>
       <div class="modal-body">
         <form action='/form-upload'
               class='dropzone'
               id='my-awesome-dropzone'>
-          <input class="btn btn-primary" type="submit" value="Save">
         </form>
+
+        <div class="container">
+          <h3>Metadata</h3>
+          <p>Enter a Key and Value below to add new metadata fields</p>
+          <form class="form-inline" role="form">
+            <div class="form-group">
+              <label for="email">Field</label>
+              <input type="email" class="form-control" id="email" placeholder="New Metadata Value">
+            </div>
+            <div class="form-group">
+              <label for="sel1">Select list (select one):</label>
+              <select class="form-control" id="sel1">
+                <option>1</option>
+                <option>2</option>
+                <option>3</option>
+                <option>4</option>
+              </select>
+            </div>
+            <br>
+            <br>
+            <div class="form-group">
+              <label for="email">Field</label>
+              <input type="email" class="form-control" id="email" placeholder="New Metadata Value">
+            </div>
+            <div class="form-group">
+              <label for="pwd">Value</label>
+              <input type="password" class="form-control" id="pwd" placeholder="Enter password">
+            </div>
+          </form>
+        </div>
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" type="submit">Save</button>
+
       </div>
     </div>
   </div>

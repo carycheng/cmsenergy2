@@ -4,16 +4,13 @@ require 'boxr'
 #require 'twilio-ruby'
 require 'awesome_print'
 require 'ap'
+#require 'rufus-scheduler'
 require 'dotenv'; Dotenv.load(".env")
+require_relative 'oauth2'
 
+# oauth object used for using refresh methods
+$oauth = Oauth2.new
 set :server, 'webrick'
-
-# 30 minute refresh limit for access token
-MAX_REFRESH_TIME = 1800
-
-$tokens = nil # represents valid generated tokens
-$prevTime = 1
-$client = nil # client obj used for file upload, folder creation
 
 get '/' do
   erb 'Can you handle a <a href="/secure/place">secret</a>?'
@@ -28,33 +25,32 @@ end
 
 post '/submit' do
 
+
   companyName = params[:company]
   info = params[:info]
   folderExists = false
   path = '/Sales/Company-Leads'
 
   # for debugging purposes to determine how long it's been since last refresh
-  timeDiff = Time.now.to_i - Integer($prevTime)
+  timeDiff = Time.now.to_i - Integer(Oauth2.prevTime)
   puts "Time diff: #{timeDiff}"
 
   # if the program has just been launched, create new access token, else create new client obj
-  if($tokens && (Time.now.to_i - Integer($prevTime)) < MAX_REFRESH_TIME)
+  if(Oauth2.tokens && (Time.now.to_i - Integer(Oauth2.prevTime)) < MAX_REFRESH_TIME)
     puts "Client obj created"
   else
-    token_refresh_callback
-    $prevTime = Time.new.to_i
+    $oauth.token_refresh_callback
+    $oauth.set_prevtime(Time.new.to_i)
     puts "Token expired or first token generation"
+
     # create client
-    $client = Boxr::Client.new($tokens.access_token)
+    $oauth.set_client(Boxr::Client.new(Oauth2.tokens.access_token))
   end
 
-  # get items in root folder
-  #items = client.folder_items(Boxr::ROOT)
-
   # Create new company folder
-  folder = $client.folder_from_path(path)
+  folder = Oauth2.client.folder_from_path(path)
 
-  checkFolder = $client.folder_items(folder)
+  checkFolder = Oauth2.client.folder_items(folder)
 
   # see if company folder already exists. If it does, just redirect
   checkFolder.each do |item|
@@ -67,11 +63,10 @@ post '/submit' do
 
   end
 
-
   # if company name doesn't already exist, create new folder/upload doc
   if(!folderExists)
 
-    new_folder = $client.create_folder(companyName, folder)
+    new_folder = Oauth2.client.create_folder(companyName, folder)
 
     # create and populate new file
     file = File.open('lead-information.docx', 'w')
@@ -85,12 +80,12 @@ post '/submit' do
     file.close
 
     # upload new file, then remove from local dir
-    uploaded_file = $client.upload_file('./lead-information.docx', new_folder)
+    uploaded_file = Oauth2.client.upload_file('./lead-information.docx', new_folder)
     File.delete('./lead-information.docx')
 
     # create task for Andy Dufresne
-    task = $client.create_task(uploaded_file, action: :review, message: "Please review, thanks!", due_at: nil)
-    $client.create_task_assignment(task, assign_to: "237685143", assign_to_login: nil)
+    task = Oauth2.client.create_task(uploaded_file, action: :review, message: "Please review, thanks!", due_at: nil)
+    Oauth2.client.create_task_assignment(task, assign_to: "237685143", assign_to_login: nil)
 
 =begin
     # Twilio API Call
@@ -128,37 +123,8 @@ post '/submit' do
   File.new('views/thank_you.erb').readlines
 end
 
-# called when access token has expired, refreshes the access token
-def token_refresh_callback
-
-  # refresh the refresh/access tokens
-  $tokens = Boxr::refresh_tokens(ENV['REFRESH_TOKEN'], client_id: ENV['BOX_CLIENT_ID'], client_secret: ENV['BOX_CLIENT_SECRET'])
-
-  #ap $tokens
-
-  refresh_env_file($tokens.access_token, $tokens.refresh_token)
-
-end
-
-
-#  method that replaces ENV file contents with new valid tokens
-def refresh_env_file(access, refresh)
-
-  # save local copy of client id/secret
-  clientId = ENV['BOX_CLIENT_ID']
-  clientSecret = ENV['BOX_CLIENT_SECRET']
-
-  # open ENV file and update with new valid tokens
-  file = File.open('.env', "r+")
-
-  file.puts "ACCESS_TOKEN=#{access}"
-  file.puts "REFRESH_TOKEN=#{refresh}"
-  file.puts "BOX_CLIENT_SECRET=#{clientSecret}"
-  file.puts "BOX_CLIENT_ID=#{clientId}"
-
-  puts "Tokens have been re-initialized"
-
-  file.close
+get '/submit' do
+  File.new('views/thank_you.erb').readlines
 end
 
 # only need to call this once every 60 days, when refresh token expires
@@ -168,9 +134,9 @@ get '/init_tokens' do
   oauth_url = Boxr::oauth_url(URI.encode_www_form_component('your-anti-forgery-token'))
 
   puts "Copy the URL below and paste into a browser. Go through the OAuth flow using the desired Box account. \
-  When you are finished your browser will redirect to a 404 error page. This is expected behavior. Look at the URL in the address \
-  bar and copy the 'code' parameter value. Paste it into the prompt below. You only have 30 seconds to complete this task so be quick about it! \
-  You will then see your access token and refresh token."
+    When you are finished your browser will redirect to a 404 error page. This is expected behavior. Look at the URL in the address \
+    bar and copy the 'code' parameter value. Paste it into the prompt below. You only have 30 seconds to complete this task so be quick about it! \
+    You will then see your access token and refresh token."
 
   puts
   puts "URL:  #{oauth_url}"
@@ -179,16 +145,12 @@ get '/init_tokens' do
   print "Enter the code: "
   code = STDIN.gets.chomp.split('=').last
 
-  $tokens = Boxr::get_tokens(code)
-  ap $tokens
+  Oauth2.tokens = Boxr::get_tokens(code)
+  ap Oauth2.tokens
 
-  refresh_env_file($tokens.access_token, $tokens.refresh_token)
+  refresh_env_file(Oauth2.tokens.access_token, $oauth.tokens.refresh_token)
 
   puts "Access/refresh tokens have been initialized"
 
-end
-
-get '/submit' do
-  File.new('views/thank_you.erb').readlines
 end
 
