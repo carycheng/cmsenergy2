@@ -4,12 +4,14 @@ require 'boxr'
 #require 'twilio-ruby'
 require 'awesome_print'
 require 'ap'
-#require 'rufus-scheduler'
 require 'dotenv'; Dotenv.load(".env")
-require_relative 'oauth2'
+
+require_relative './app/oauth2'
 
 # oauth object used for using refresh methods
 $oauth = Oauth2.new
+$client = nil
+
 set :server, 'webrick'
 
 get '/' do
@@ -25,36 +27,31 @@ end
 
 post '/submit' do
 
-
   companyName = params[:company]
   info = params[:info]
   folderExists = false
-  path = '/Sales/Company-Leads'
+  path = '/CMS-Energy'
 
-  # for debugging purposes to determine how long it's been since last refresh
+  # for DEBUGGING purposes to determine how long it's been since last refresh
   timeDiff = Time.now.to_i - Integer(Oauth2.prevTime)
   puts "Time diff: #{timeDiff}"
 
-  # if the program has just been launched, create new access token, else create new client obj
-  if(Oauth2.tokens && (Time.now.to_i - Integer(Oauth2.prevTime)) < MAX_REFRESH_TIME)
-    puts "Client obj created"
-  else
-    $oauth.token_refresh_callback
-    $oauth.set_prevtime(Time.new.to_i)
-    puts "Token expired or first token generation"
-
-    # create client
-    $oauth.set_client(Boxr::Client.new(Oauth2.tokens.access_token))
+  # if true (need new client obj?) create new client
+  if($oauth.need_new_tokens())
+    $client = Boxr::Client.new(Oauth2.tokens.access_token)
   end
 
   # Create new company folder
-  folder = Oauth2.client.folder_from_path(path)
+  folder = $client.folder_from_path(path)
 
-  checkFolder = Oauth2.client.folder_items(folder)
+  checkFolder = $client.folder_items(folder)
+
+  if(companyName == "")
+    companyName = "Default Company"
+  end
 
   # see if company folder already exists. If it does, just redirect
   checkFolder.each do |item|
-    #puts item.name
 
     if(item.name == companyName)
       folderExists = true
@@ -66,7 +63,7 @@ post '/submit' do
   # if company name doesn't already exist, create new folder/upload doc
   if(!folderExists)
 
-    new_folder = Oauth2.client.create_folder(companyName, folder)
+    new_folder = $client.create_folder(companyName, folder)
 
     # create and populate new file
     file = File.open('lead-information.docx', 'w')
@@ -80,21 +77,19 @@ post '/submit' do
     file.close
 
     # upload new file, then remove from local dir
-    uploaded_file = Oauth2.client.upload_file('./lead-information.docx', new_folder)
+    uploaded_file = $client.upload_file('./lead-information.docx', new_folder)
     File.delete('./lead-information.docx')
 
     # create task for Andy Dufresne
-    task = Oauth2.client.create_task(uploaded_file, action: :review, message: "Please review, thanks!", due_at: nil)
-    Oauth2.client.create_task_assignment(task, assign_to: "237685143", assign_to_login: nil)
+    task = $client.create_task(uploaded_file, action: :review, message: "Please review, thanks!", due_at: nil)
+    $client.create_task_assignment(task, assign_to: "237685143", assign_to_login: nil)
 
 =begin
     # Twilio API Call
     account_sid = "AC4c44fc31f1d7446784b3e065f92eb4e6"
     auth_token = "5ad821b20cff339979cd0a9d42e1a05d"
     client = Twilio::REST::Client.new account_sid, auth_token
-
     from = "+14087695509" # Your Twilio number
-
     friends = {
   # "+16504171570" => "Cary",
   # "+18053451948" => "Joann",
@@ -145,12 +140,28 @@ get '/init_tokens' do
   print "Enter the code: "
   code = STDIN.gets.chomp.split('=').last
 
-  Oauth2.tokens = Boxr::get_tokens(code)
+  $oauth.set_tokens(Boxr::get_tokens(code))
   ap Oauth2.tokens
 
-  refresh_env_file(Oauth2.tokens.access_token, $oauth.tokens.refresh_token)
+
+  $oauth.refresh_env_file(Oauth2.tokens.access_token, Oauth2.tokens.refresh_token)
 
   puts "Access/refresh tokens have been initialized"
 
 end
 
+get '/form-upload' do
+
+  path = '/CMS-Energy'
+
+  # if true (need new client obj?) create new client
+  if($oauth.need_new_tokens())
+    $client = Boxr::Client.new(Oauth2.tokens.access_token)
+  end
+
+  # Move to CMS Folder
+  folder = $client.folder_from_path(path)
+
+  $client.upload_file('test.txt', folder)
+  File.new('views/thank_you.erb').readlines
+end
