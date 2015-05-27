@@ -194,4 +194,12 @@ post '/attach-metadata' do
   # attach metadata
   metadata = $client.create_metadata($uploadedFile, meta)
 
+
+  # folder = $client.folder_from_path(path)
+  # checkFolder = $client.folder_items(folder)
+  # puts checkFolder
+
+  # #fetch metadata
+  # fetchData = $client.metadata()  
+
 end
