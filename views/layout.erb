@@ -3,6 +3,12 @@
 <script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
 <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 
+
+
+
+
+<!------------------------------------------------  CSS --------------------------------------------------------------->
+
 <style>
     #brand-image{
         height: 80px;
@@ -46,6 +52,8 @@
 </style>
 
 
+<!------------------------------------------------  HTML -------------------------------------------------------------->
+
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -70,11 +78,7 @@
           <li class="active"><a href="#">
             <h4><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
               Dashboard</h4></a>
-
           </li>
-
-
-
       </ul>
 
       <ul class="nav navbar-nav navbar-right">
@@ -84,10 +88,6 @@
       </ul>
     </div>
   </div>
-
-
-
-
 </head>
 
 <body>
@@ -103,15 +103,10 @@
   <script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
 </div>
 
-
-
-
-
+  <!-- These are temporary charts and graphs -->
 
 <div id="page-wrapper">
-
   <div class="container-fluid">
-
     <br><br>
     <br><br>
     <div class="row">
@@ -135,7 +130,6 @@
         </div>
       </div>
     </div>
-    <!-- /.row -->
 
     <div class="row">
       <div class="col-lg-4">
@@ -272,19 +266,11 @@
         </div>
       </div>
     </div>
-    <!-- /.row -->
-
   </div>
-  <!-- /.container-fluid -->
-
 </div>
 
 
-
-
-
-<!-- Modal -->
-<!-- Large modal -->
+  <!-- This is the "Add Metadata" modal -->
 
 <div class="modal fade bs-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -293,6 +279,9 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h2 class="modal-title" id="myModalLabel">Upload Files, Add Metadata</h2>
       </div>
+
+  <!-- Dropzone form -->
+
       <div class="modal-body">
 
         <form action='/file-upload'
@@ -304,6 +293,9 @@
             <input name="file" type="file" multiple />
           </div>
         </form>
+
+
+   <!-- Metadata From -->
 
         <div class="container">
           <br>
@@ -339,25 +331,34 @@
                 Value</label>
               <input type="password" class="form-control" id="metaValue2" placeholder="Enter a value">
             </div>
+            <script>
+              console.log("Form2")
+            </script>
           </form>
         </div>
-
       </div>
+
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-success" type="submit">Upload and Create</button>
-
+        <button form="mydropzone" class="btn btn-success" type="button" onClick="submitForms();">Upload and Create</button>
       </div>
     </div>
   </div>
 </div>
 
+<!------------------------------------------------  Javascript -------------------------------------------------------->
+# This JS Submits the Upload and Metadata Forms at the same time
+<script>
+//  submitForms = function(){
+//    document.getElementById("mydropzone").submit();
+//    document.getElementById("mydropzone").submit();
 
+    function submitForms(){
+      document.getElementById("mydropzone").submit();
+      document.getElementById("mydropzone2").submit();
+  }
+</script>
 
 
 </body>
-
-
-
-
 </html>
