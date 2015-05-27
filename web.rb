@@ -11,7 +11,7 @@ require_relative './app/oauth2'
 # oauth object used for using refresh methods
 $oauth = Oauth2.new
 $client = nil
-$uploadFile
+$uploadFile = nil
 
 set :server, 'webrick'
 
@@ -90,9 +90,7 @@ post '/submit' do
     account_sid = "AC4c44fc31f1d7446784b3e065f92eb4e6"
     auth_token = "5ad821b20cff339979cd0a9d42e1a05d"
     client = Twilio::REST::Client.new account_sid, auth_token
-
     from = "+14087695509" # Your Twilio number
-
     friends = {
   # "+16504171570" => "Cary",
   # "+18053451948" => "Joann",
@@ -146,7 +144,6 @@ end
     $oauth.set_tokens(Boxr::get_tokens(code))
     ap Oauth2.tokens
 
-
     $oauth.refresh_env_file(Oauth2.tokens.access_token, Oauth2.tokens.refresh_token)
 
     puts "Access/refresh tokens have been initialized"
@@ -195,7 +192,3 @@ post '/attach-metadata' do
   metadata = $client.create_metadata($uploadedFile, meta)
 
 end
-
-
-
-
