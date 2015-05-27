@@ -11,6 +11,7 @@ require_relative './app/oauth2'
 # oauth object used for using refresh methods
 $oauth = Oauth2.new
 $client = nil
+$uploadFile
 
 set :server, 'webrick'
 
@@ -152,10 +153,12 @@ end
 
   end
 
-get '/form-upload' do
+post '/file-upload' do
 
   path = '/CMS-Energy'
-  fileName = params[:myfile]
+  file = params[:file]
+  name = params[:file][:filename]
+  $toUpload = params[:file][:tempfile]
 
   # if true (need new client obj?) create new client
   if($oauth.new_client())
@@ -165,10 +168,32 @@ get '/form-upload' do
   # Move to CMS Folder
   folder = $client.folder_from_path(path)
 
-  $client.upload_file('test.txt', folder)
-  
+  # upload file
+  uploadedFile = $client.upload_file($toUpload, folder)
+  $client.update_file(uploadedFile, name: name)
+
   erb :layout 
-  #File.new('views/thank_you.erb').readlines
+end
+
+post '/attach-metadata' do
+
+  path = '/CMS-Energy'
+
+  # if true (need new client obj?) create new client
+  if($oauth.new_client())
+    $client = Boxr::Client.new(Oauth2.tokens.access_token)
+  end
+
+  # Move to CMS Folder
+  folder = $client.folder_from_path(path)
+
+  # attach metadata
+  meta = {"a" => "hello", "b" => "world"}
+
+
+  # attach metadata
+  metadata = $client.create_metadata($uploadedFile, meta)
+
 end
 
 

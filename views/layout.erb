@@ -114,51 +114,18 @@
         <h2 class="modal-title" id="myModalLabel">Upload a File and Attach Metadata</h2>
       </div>
       <div class="modal-body">
-        <form action='/form-upload'
+
+        <form action='/file-upload'
               class='dropzone'
-              id='my-awesome-dropzone'>
+              role='form'
+              id='my_awesome_dropzone'
+              method="post">
+          <div class="fallback">
+            <input name="file" type="file" multiple />
+          </div>
+          <input id="submit" name="submit" type="submit" value="Get Started" class="btn btn-success">
         </form>
 
-        <div class="container">
-          <h3>Metadata</h3>
-          <p>Enter a Key and Value below to add new metadata fields</p>
-          <form class="form-inline" role="form">
-            <div class="form-group">
-              <label for="email">Field</label>
-              <input type="email" class="form-control" id="email" placeholder="New Metadata Field">
-            </div>
-            <div class="form-group">
-              <label for="sel1">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                Select List:</label>
-              <select class="form-control" id="sel1">
-                <option>1</option>
-                <option>2</option>
-                <option>3</option>
-                <option>4</option>
-              </select>
-            </div>
-            <br>
-            <br>
-            <div class="form-group">
-              <label for="email">Field</label>
-              <input type="email" class="form-control" id="email" placeholder="New Metadata Field">
-            </div>
-            <div class="form-group">
-              <label for="pwd">
-                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                Value</label>
-              <input type="password" class="form-control" id="pwd" placeholder="Enter a value">
-            </div>
-          </form>
-        </div>
-
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" type="submit">Save</button>
-
-      </div>
     </div>
   </div>
 </div>
