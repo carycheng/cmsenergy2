@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-<script src="https://rawgit.com/enyo/dropzone/master/dist/dropzone.js"></script>
+<script src="/public/js/dropzone.js" type="text/javascript">
 <link rel="stylesheet" href="https://rawgit.com/enyo/dropzone/master/dist/dropzone.css">
 
 
@@ -297,7 +297,7 @@
           <br>
           <br>
           <h4>Enter a Key and Value below to add new Metadata fields</h4>
-          <form class="form-inline" role="form" id="mydropzone2">
+          <form class="form-inline" role="form" id="metadaform">
             <div class="form-group">
               <label for="email">Field</label>
               <input type="email" class="form-control" id="email" placeholder="New Metadata Field">
@@ -334,26 +334,13 @@
 
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-        <button form="mydropzone" class="btn btn-success" type="button" onClick="submitForms();">Upload and Create</button>
+        <button form="metadataform" class="btn btn-success" type="button" >Upload and Create</button>
       </div>
     </div>
   </div>
 </div>
 
 <!------------------------------------------------  Javascript -------------------------------------------------------->
-
-<!-- This JS Submits the Upload and Metadata Forms at the same time -->
-<script>
-//  submitForms = function(){
-//    document.getElementById("mydropzone").submit();
-//    document.getElementById("mydropzone").submit();
-
-    function submitForms(){
-      document.getElementById("mydropzone").submit();
-      document.getElementById("mydropzone2").submit();
-  }
-</script>
-
 
 </body>
 </html>
