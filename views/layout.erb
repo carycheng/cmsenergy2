@@ -34,12 +34,10 @@
         background-color: white;
         z-index: 100;
     }
-
     #metabtn {
         margin-top: 35px;
         margin-bottom: 0px;
     }
-
     .modal-body {
         background-color: transparent;
     }
@@ -78,7 +76,7 @@
       <ul class="nav navbar-nav" id="navadjust">
 
           <li class="active"><a href="#">
-            <h4><span class="glyphicon glyphicon-tasks" aria-hidden="true"></span>
+            <h4><span class="glyphicon glyphicon-stats" aria-hidden="true"></span>
               Dashboard</h4></a>
           </li>
       </ul>
@@ -285,12 +283,15 @@
   <!-- Dropzone form -->
 
       <div class="modal-body">
-        <form action='/form-upload'
+
+        <form action='/file-upload'
               class='dropzone'
-              id="mydropzone">
-          <script>
-             console.log("Form1")
-          </script>
+              role='form'
+              id='my_awesome_dropzone'
+              method="post">
+          <div class="fallback">
+            <input name="file" type="file" multiple />
+          </div>
         </form>
 
 
@@ -300,16 +301,18 @@
           <br>
           <br>
           <h4>Enter a Key and Value below to add new Metadata fields</h4>
-          <form class="form-inline" role="form" id="mydropzone2">
+          <form action='/attach-metadata'
+                class="form-inline" 
+                role="form">
             <div class="form-group">
               <label for="email">Field</label>
-              <input type="email" class="form-control" id="email" placeholder="New Metadata Field">
+              <input type="email" class="form-control" id="metaField1" placeholder="New Metadata Field">
             </div>
             <div class="form-group">
               <label for="sel1">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Select List:</label>
-              <select class="form-control" id="sel1">
+              <select class="form-control" id="metaValue1">
                 <option>1</option>
                 <option>2</option>
                 <option>3</option>
@@ -320,13 +323,13 @@
             <br>
             <div class="form-group">
               <label for="email">Field</label>
-              <input type="email" class="form-control" id="email" placeholder="New Metadata Field">
+              <input type="email" class="form-control" id="metaField2" placeholder="New Metadata Field">
             </div>
             <div class="form-group">
               <label for="pwd">
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 Value</label>
-              <input type="password" class="form-control" id="pwd" placeholder="Enter a value">
+              <input type="password" class="form-control" id="metaValue2" placeholder="Enter a value">
             </div>
             <script>
               console.log("Form2")
