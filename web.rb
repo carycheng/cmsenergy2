@@ -213,6 +213,7 @@ end
 get '/csv-download' do
 
   path = '/CMS-Energy'
+  infoFile = File.open('file-info.txt', 'w')
 
   # if true (need new client obj?) create new client
   if($oauth.new_client())
@@ -227,32 +228,34 @@ get '/csv-download' do
   puts
   checkFolder.each do |item|
     #ap item
-    puts "File Name: #{item['name']}"
+    infoFile.puts "File Name: #{item['name']}"
 
     file = $client.file_from_id(item['id'], fields: [])
     metadata = $client.metadata(file, scope: :global, template: :properties)
 
-    puts "\tDescription: #{file['description']}"
-    puts "\tCreated at: #{file['created_at']}"
-    puts "\tUpdated at: #{file['modified_at']}"
-    puts "\tSize: #{file['size']}"
+    infoFile.puts "\tDescription: #{file['description']}"
+    infoFile.puts "\tCreated at: #{file['created_at']}"
+    infoFile.puts "\tUpdated at: #{file['modified_at']}"
+    infoFile.puts "\tSize: #{file['size']}"
 
     metadata.each do |key, value|
       break if key == '$type'
-      puts "\t#{key}: #{value}"
+      infoFile.puts "\t#{key}: #{value}"
     end
   end
   puts
 
-  erb :layout
+  infoFile.close
+  send_file 'file-info.txt'
 
+  erb :layout
 end
 
-
-
-
-
-
+get '/test' do
+    @logfile = File.open("file-info.txt","r")
+    erb :layout
+    @logfile.close
+end
 
 
 
