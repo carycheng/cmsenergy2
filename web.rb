@@ -210,7 +210,7 @@ post '/attach-metadata' do
   erb :layout
 end
 
-get '/csv-download' do
+get '/test.txt' do
 
   path = '/CMS-Energy'
   infoFile = File.open('file-info.txt', 'w')

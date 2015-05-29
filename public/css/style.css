@@ -967,3 +967,7 @@ input, select, textarea{
 	font-size: 40px !important;
 }
 
+.buttonPosition{
+	padding-left: 50px !important;
+}
+
